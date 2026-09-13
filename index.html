@@ -5,592 +5,677 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AudioSwitch Pro - 双模USB音频设备</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #1a1a2e;
-            --accent: #4361ee;
-            --accent-light: #4cc9f0;
-            --text: #2d2d2d;
-            --text-light: #6b7280;
-            --bg: #ffffff;
-            --bg-soft: #f8f9fa;
-            --border: #e5e7eb;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a28;
+            --accent: #6c5ce7;
+            --accent-light: #a29bfe;
+            --accent-glow: rgba(108, 92, 231, 0.3);
+            --text: #e8e8f0;
+            --text-dim: #8888a0;
+            --text-muted: #55556a;
+            --border: #2a2a3a;
+            --green: #00cec9;
+            --orange: #fdcb6e;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* ===== NAV ===== */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.9);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10,10,15,0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
+        .logo { font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent-light); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
         .nav-links a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s;
+            text-decoration: none; color: var(--text-dim);
+            font-size: 0.9rem; font-weight: 500; transition: color 0.3s;
         }
-
-        .nav-links a:hover {
-            color: var(--accent);
+        .nav-links a:hover { color: var(--accent-light); }
+        .nav-cta {
+            padding: 0.5rem 1.2rem; background: var(--accent);
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s;
         }
+        .nav-cta:hover { background: var(--accent-light); transform: translateY(-1px); }
 
-        /* Hero Section */
+        /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 8rem 2rem 4rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 50%, #f0f0ff 100%);
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        .hero-text h1 .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .hero-badges {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 0.5rem 1rem;
-            background: rgba(67, 97, 238, 0.08);
-            border: 1px solid rgba(67, 97, 238, 0.2);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--accent);
-        }
-
-        .cta-btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
-        }
-
-        .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .hero-image img:hover {
-            transform: scale(1.02);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 2rem;
-            background: var(--bg);
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            letter-spacing: -0.5px;
-        }
-
-        .section-header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        .features-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .feature-card {
-            padding: 2.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
             position: relative;
             overflow: hidden;
         }
-
-        .feature-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 10px 40px rgba(67, 97, 238, 0.1);
-            transform: translateY(-4px);
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(108,92,231,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(0,206,201,0.05) 0%, transparent 60%);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+        }
+        @keyframes heroGlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-3%, 2%); }
         }
 
+        .hero-content {
+            max-width: 1200px; width: 100%;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4rem; align-items: center;
+            position: relative; z-index: 1;
+        }
+        .hero-badges { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .badge {
+            padding: 0.4rem 1rem;
+            background: rgba(108,92,231,0.12);
+            border: 1px solid rgba(108,92,231,0.25);
+            border-radius: 50px; font-size: 0.8rem; font-weight: 500;
+            color: var(--accent-light);
+        }
+        .hero-text h1 {
+            font-size: 3.8rem; font-weight: 800; line-height: 1.1;
+            color: #fff; margin-bottom: 1.5rem; letter-spacing: -1.5px;
+        }
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-light), var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-text p {
+            font-size: 1.15rem; color: var(--text-dim);
+            margin-bottom: 2rem; line-height: 1.8;
+        }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-block; padding: 0.9rem 2rem;
+            background: var(--accent); color: #fff;
+            text-decoration: none; border-radius: 10px;
+            font-weight: 600; font-size: 1rem;
+            transition: all 0.3s; border: none; cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-outline {
+            display: inline-block; padding: 0.9rem 2rem;
+            background: transparent; color: var(--text);
+            text-decoration: none; border-radius: 10px;
+            font-weight: 600; font-size: 1rem;
+            border: 1px solid var(--border); transition: all 0.3s; cursor: pointer;
+        }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent-light); }
+
+        .hero-image {
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+        .hero-image-wrapper {
+            position: relative;
+            width: 420px; height: 420px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-image-wrapper::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(108,92,231,0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .hero-image-wrapper img {
+            position: relative; z-index: 1;
+            max-width: 85%; max-height: 85%;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+            transition: transform 0.5s;
+        }
+        .hero-image-wrapper img:hover { transform: rotate(-5deg) scale(1.05); }
+
+        /* ===== METRICS ===== */
+        .metrics {
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+        .metrics-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 2rem; text-align: center;
+        }
+        .metric-item .metric-value {
+            font-size: 2.8rem; font-weight: 800; color: #fff;
+            line-height: 1;
+        }
+        .metric-item .metric-value span { font-size: 1.2rem; color: var(--accent-light); }
+        .metric-item .metric-label {
+            font-size: 0.9rem; color: var(--text-dim); margin-top: 0.5rem;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        section { padding: 6rem 2rem; }
+        .section-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+        .section-header .tag {
+            display: inline-block; padding: 0.3rem 0.8rem;
+            background: rgba(108,92,231,0.12); border-radius: 6px;
+            font-size: 0.8rem; font-weight: 600; color: var(--accent-light);
+            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem; font-weight: 700; color: #fff;
+            margin-bottom: 1rem; letter-spacing: -0.5px;
+        }
+        .section-header p { color: var(--text-dim); font-size: 1.05rem; }
+
+        /* ===== FEATURES ===== */
+        .features { background: var(--bg-dark); }
+        .features-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+        .feature-card {
+            padding: 2.5rem; border-radius: 16px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            transition: all 0.4s; position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--green));
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .feature-card:hover::before { opacity: 1; }
         .feature-card .mode-label {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
+            display: inline-block; padding: 0.3rem 0.8rem;
+            border-radius: 6px; font-size: 0.75rem; font-weight: 700;
+            margin-bottom: 1rem; letter-spacing: 0.5px;
         }
-
-        .feature-card.mode-a .mode-label {
-            background: #e0f2fe;
-            color: #0284c7;
-        }
-
-        .feature-card.mode-b .mode-label {
-            background: #f0fdf4;
-            color: #16a34a;
-        }
-
-        .feature-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .feature-card ul {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
+        .feature-card.mode-a .mode-label { background: rgba(0,206,201,0.15); color: var(--green); }
+        .feature-card.mode-b .mode-label { background: rgba(253,203,110,0.15); color: var(--orange); }
+        .feature-card h3 { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; }
+        .feature-card > p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+        .feature-card ul { list-style: none; margin-top: 1.2rem; }
         .feature-card ul li {
-            padding: 0.4rem 0;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.4rem 0; color: var(--text-dim); font-size: 0.9rem;
+            display: flex; align-items: center; gap: 0.6rem;
         }
-
         .feature-card ul li::before {
-            content: '✓';
-            color: var(--accent);
-            font-weight: 700;
+            content: ''; width: 6px; height: 6px; min-width: 6px;
+            background: var(--accent); border-radius: 50%;
         }
 
-        /* How It Works */
-        .how-it-works {
-            padding: 6rem 2rem;
-            background: var(--bg-soft);
-        }
-
-        .steps {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works { background: var(--bg-card); }
+        .steps { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
         .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
+            display: flex; align-items: flex-start; gap: 1.5rem;
+            padding: 2rem; border-radius: 16px;
+            background: var(--bg-dark); border: 1px solid var(--border);
             transition: all 0.3s;
         }
-
-        .step:hover {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
+        .step:hover { border-color: var(--accent); }
         .step-number {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
+            width: 48px; height: 48px; min-width: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--green));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 1.2rem;
         }
+        .step-content h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+        .step-content p { color: var(--text-dim); font-size: 0.95rem; }
 
-        .step-content h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .step-content p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        /* Specs Section */
-        .specs {
-            padding: 6rem 2rem;
-            background: var(--bg);
-        }
-
+        /* ===== SPECS ===== */
+        .specs { background: var(--bg-dark); }
         .specs-grid {
-            max-width: 800px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
         }
-
         .spec-item {
-            padding: 1.5rem;
-            background: var(--bg-soft);
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            padding: 1.5rem; border-radius: 12px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            transition: border-color 0.3s;
         }
-
+        .spec-item:hover { border-color: var(--accent); }
         .spec-item .spec-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-muted); margin-bottom: 0.4rem;
         }
+        .spec-item .spec-value { font-size: 1.05rem; font-weight: 600; color: #fff; }
 
-        .spec-item .spec-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
+        /* ===== PARTNERS / CTA ===== */
+        .partners {
+            background: linear-gradient(135deg, rgba(108,92,231,0.08) 0%, rgba(0,206,201,0.05) 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-
-        /* Footer */
-        footer {
-            padding: 3rem 2rem;
-            background: var(--primary);
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
+        .partners-content {
+            max-width: 900px; margin: 0 auto; text-align: center;
         }
-
-        footer .logo {
-            color: white;
+        .partners-content h2 {
+            font-size: 2.5rem; font-weight: 700; color: #fff;
             margin-bottom: 1rem;
         }
-
-        footer p {
-            font-size: 0.9rem;
+        .partners-content > p {
+            color: var(--text-dim); font-size: 1.1rem;
+            max-width: 600px; margin: 0 auto 3rem; line-height: 1.8;
         }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
+        .partner-types {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin-bottom: 3rem;
         }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .partner-type {
+            padding: 2rem 1.5rem; border-radius: 16px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            transition: all 0.3s;
         }
+        .partner-type:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .partner-type .icon {
+            font-size: 2rem; margin-bottom: 1rem;
+        }
+        .partner-type h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .partner-type p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
 
-        /* Responsive */
+        .partner-cta-box {
+            padding: 3rem; border-radius: 20px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 2rem; flex-wrap: wrap;
+        }
+        .partner-cta-box h3 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .partner-cta-box p { color: var(--text-dim); font-size: 0.95rem; }
+        .partner-cta-box .btn-primary { white-space: nowrap; }
+
+        /* ===== CONTACT FORM ===== */
+        .contact { background: var(--bg-card); }
+        .contact-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+        }
+        .contact-info h3 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; }
+        .contact-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+        .contact-item .ci-icon {
+            width: 44px; height: 44px; min-width: 44px;
+            background: rgba(108,92,231,0.12); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+        .contact-item .ci-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .contact-item .ci-value { font-size: 1rem; color: #fff; font-weight: 500; }
+
+        .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.4rem; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 0.9rem 1rem;
+            background: var(--bg-dark); border: 1px solid var(--border);
+            border-radius: 10px; color: #fff; font-size: 0.95rem;
+            font-family: inherit; transition: border-color 0.3s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-submit {
+            padding: 1rem 2rem; background: var(--accent); color: #fff;
+            border: none; border-radius: 10px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+        }
+        .form-submit:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 2rem;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+        }
+        .footer-content {
+            max-width: 1000px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-content .logo { font-size: 1.2rem; }
+        .footer-content p { color: var(--text-muted); font-size: 0.85rem; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--accent-light); }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 2rem;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-badges {
-                justify-content: center;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .specs-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .step {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
+            .hero-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-badges, .hero-btns { justify-content: center; }
+            .hero-image-wrapper { width: 300px; height: 300px; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .partner-types { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .partner-cta-box { flex-direction: column; text-align: center; }
+            .step { flex-direction: column; align-items: center; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">Audio<span>Switch</span> Pro</div>
-        <ul class="nav-links">
-            <li><a href="#features">功能</a></li>
-            <li><a href="#how-it-works">工作原理</a></li>
-            <li><a href="#specs">规格</a></li>
-        </ul>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text fade-in">
-                <div class="hero-badges">
-                    <span class="badge">USB Type-C</span>
-                    <span class="badge">即插即用</span>
-                    <span class="badge">双模切换</span>
+<!-- Navigation -->
+<nav>
+    <div class="logo">Audio<span>Switch</span> Pro</div>
+    <ul class="nav-links">
+        <li><a href="#features">功能</a></li>
+        <li><a href="#how-it-works">原理</a></li>
+        <li><a href="#specs">规格</a></li>
+        <li><a href="#partners">合作</a></li>
+        <li><a href="#contact">联系</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">商务合作</button>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-text fade-in">
+            <div class="hero-badges">
+                <span class="badge">USB Type-C</span>
+                <span class="badge">即插即用</span>
+                <span class="badge">双模切换</span>
+            </div>
+            <h1>一拨即变<br><span class="highlight">U盘 · 麦克风</span></h1>
+            <p>超迷你双模 USB 设备，拨动开关即可在存储模式与音频模式之间无缝切换。无需驱动，即插即用，兼容手机、平板、电脑。</p>
+            <div class="hero-btns">
+                <a href="#features" class="btn-primary">了解功能</a>
+                <a href="#partners" class="btn-outline">寻求合作</a>
+            </div>
+        </div>
+        <div class="hero-image fade-in">
+            <div class="hero-image-wrapper">
+                <img src="product.jpg" alt="AudioSwitch Pro">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Metrics -->
+<div class="metrics">
+    <div class="metrics-grid">
+        <div class="metric-item fade-in">
+            <div class="metric-value">2<span> 种模式</span></div>
+            <div class="metric-label">MSC 存储 / UAC 音频</div>
+        </div>
+        <div class="metric-item fade-in">
+            <div class="metric-value">0<span> 驱动</span></div>
+            <div class="metric-label">即插即用，免安装</div>
+        </div>
+        <div class="metric-item fade-in">
+            <div class="metric-value">&lt;10<span>g</span></div>
+            <div class="metric-label">超轻便携</div>
+        </div>
+        <div class="metric-item fade-in">
+            <div class="metric-value">100<span>%</span></div>
+            <div class="metric-label">兼容主流系统</div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+    <div class="section-header fade-in">
+        <div class="tag">核心功能</div>
+        <h2>两种模式，一键切换</h2>
+        <p>通过物理拨动开关，在 A/B 两种工作模式之间自由切换</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card mode-a fade-in">
+            <span class="mode-label">A 档 · MSC</span>
+            <h3>存储模式</h3>
+            <p>设备作为标准 U 盘被识别，可自由管理文件。</p>
+            <ul>
+                <li>主机识别为标准 USB 存储设备</li>
+                <li>浏览、读取、删除、写入文件</li>
+                <li>内置 default/voice.mp3 默认音频</li>
+                <li>音频文件可自定义替换</li>
+            </ul>
+        </div>
+        <div class="feature-card mode-b fade-in">
+            <span class="mode-label">B 档 · UAC</span>
+            <h3>音频模式</h3>
+            <p>设备作为 USB 麦克风被识别，输出预设音频流。</p>
+            <ul>
+                <li>主机识别为标准 USB 音频输入设备</li>
+                <li>循环播放 voice.mp3 至麦克风接口</li>
+                <li>文件缺失时自动输出静音 PCM 数据</li>
+                <li>音频流持续稳定，无中断</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works" id="how-it-works">
+    <div class="section-header fade-in">
+        <div class="tag">使用流程</div>
+        <h2>三步即可使用</h2>
+        <p>无需复杂配置，开箱即用</p>
+    </div>
+    <div class="steps">
+        <div class="step fade-in">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>插入设备</h3>
+                <p>将 AudioSwitch Pro 通过 USB Type-C 接口连接至手机、平板或电脑，设备自动供电，无需额外电源。</p>
+            </div>
+        </div>
+        <div class="step fade-in">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>选择模式</h3>
+                <p>拨动设备尾部的物理开关：A 档进入 U 盘模式管理音频文件，B 档进入麦克风模式输出音频流。</p>
+            </div>
+        </div>
+        <div class="step fade-in">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>开始使用</h3>
+                <p>在 B 档模式下，任何需要麦克风权限的应用程序将接收到设备输出的音频内容，而非环境声音。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Specs -->
+<section class="specs" id="specs">
+    <div class="section-header fade-in">
+        <div class="tag">技术参数</div>
+        <h2>技术规格</h2>
+        <p>小巧机身，强大功能</p>
+    </div>
+    <div class="specs-grid">
+        <div class="spec-item fade-in">
+            <div class="spec-label">接口类型</div>
+            <div class="spec-value">USB Type-C</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">供电方式</div>
+            <div class="spec-value">USB 主机供电（无内置电池）</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">A 档模式</div>
+            <div class="spec-value">USB MSC（大容量存储类）</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">B 档模式</div>
+            <div class="spec-value">USB UAC（音频输入设备）</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">音频格式</div>
+            <div class="spec-value">MP3 → PCM 实时解码输出</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">兼容设备</div>
+            <div class="spec-value">手机 / 平板 / PC / Mac</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">驱动需求</div>
+            <div class="spec-value">免驱动，即插即用</div>
+        </div>
+        <div class="spec-item fade-in">
+            <div class="spec-label">默认文件</div>
+            <div class="spec-value">default/voice.mp3</div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners -->
+<section class="partners" id="partners">
+    <div class="partners-content">
+        <div class="tag" style="display:inline-block;padding:0.3rem 0.8rem;background:rgba(108,92,231,0.12);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--accent-light);margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px;">合作伙伴</div>
+        <h2 class="fade-in">我们正在寻找合作伙伴</h2>
+        <p class="fade-in">AudioSwitch Pro 现面向全球寻求各类合作伙伴，共同推动产品落地与市场拓展。无论您是经销商、集成商还是方案商，我们都期待与您携手。</p>
+
+        <div class="partner-types">
+            <div class="partner-type fade-in">
+                <div class="icon">🏪</div>
+                <h3>渠道经销商</h3>
+                <p>拥有电子产品销售渠道，希望引入创新 USB 音频设备，拓展产品线。</p>
+            </div>
+            <div class="partner-type fade-in">
+                <div class="icon"></div>
+                <h3>方案集成商</h3>
+                <p>将本设备集成到您的整体解决方案中，为终端客户提供完整的产品体验。</p>
+            </div>
+            <div class="partner-type fade-in">
+                <div class="icon"></div>
+                <h3>OEM / ODM 合作</h3>
+                <p>基于本方案进行定制化开发，打造您自有品牌的双模 USB 音频产品。</p>
+            </div>
+        </div>
+
+        <div class="partner-cta-box fade-in">
+            <div>
+                <h3>有兴趣合作？</h3>
+                <p>填写下方联系表单，或通过邮箱直接与我们取得联系，我们将在 24 小时内回复。</p>
+            </div>
+            <a href="#contact" class="btn-primary">立即联系</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+    <div class="section-header fade-in">
+        <div class="tag">联系我们</div>
+        <h2>与我们取得联系</h2>
+        <p>有任何问题或合作意向，请随时联系</p>
+    </div>
+    <div class="contact-grid">
+        <div class="contact-info fade-in">
+            <h3>联系方式</h3>
+            <div class="contact-item">
+                <div class="ci-icon">📧</div>
+                <div>
+                    <div class="ci-label">商务邮箱</div>
+                    <div class="ci-value">contact@audioswitch.pro</div>
                 </div>
-                <h1>一拨即变<br><span class="highlight">U盘 · 麦克风</span></h1>
-                <p>超迷你双模USB设备，拨动开关即可在存储模式与音频模式之间无缝切换。无需驱动，即插即用，兼容手机、平板、电脑。</p>
-                <a href="#features" class="cta-btn">了解功能</a>
             </div>
-            <div class="hero-image fade-in">
-                <img src="product.jpg" alt="AudioSwitch Pro 产品实物图">
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="section-header fade-in">
-            <h2>两种模式，一键切换</h2>
-            <p>通过物理拨动开关，在 A/B 两种工作模式之间自由切换</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card mode-a fade-in">
-                <span class="mode-label">A 档</span>
-                <h3>MSC 存储模式</h3>
-                <p>设备作为标准 U 盘被识别，可自由管理文件。</p>
-                <ul>
-                    <li>主机识别为标准 USB 存储设备</li>
-                    <li>浏览、读取、删除、写入文件</li>
-                    <li>内置 default/voice.mp3 默认音频</li>
-                    <li>音频文件可自定义替换</li>
-                </ul>
-            </div>
-            <div class="feature-card mode-b fade-in">
-                <span class="mode-label">B 档</span>
-                <h3>UAC 音频模式</h3>
-                <p>设备作为 USB 麦克风被识别，输出预设音频流。</p>
-                <ul>
-                    <li>主机识别为标准 USB 音频输入设备</li>
-                    <li>循环播放 voice.mp3 音频至麦克风接口</li>
-                    <li>文件缺失时自动输出静音 PCM 数据</li>
-                    <li>音频流持续稳定，无中断</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="section-header fade-in">
-            <h2>工作原理</h2>
-            <p>简单三步，轻松使用</p>
-        </div>
-        <div class="steps">
-            <div class="step fade-in">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>插入设备</h3>
-                    <p>将 AudioSwitch Pro 通过 USB Type-C 接口连接至手机、平板或电脑，设备自动供电，无需额外电源。</p>
+            <div class="contact-item">
+                <div class="ci-icon">💬</div>
+                <div>
+                    <div class="ci-label">微信</div>
+                    <div class="ci-value">AudioSwitchPro</div>
                 </div>
             </div>
-            <div class="step fade-in">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>选择模式</h3>
-                    <p>拨动设备尾部的物理开关：A 档进入 U 盘模式，可管理音频文件；B 档进入麦克风模式，开始输出音频流。</p>
+            <div class="contact-item">
+                <div class="ci-icon">🕐</div>
+                <div>
+                    <div class="ci-label">响应时间</div>
+                    <div class="ci-value">24 小时内回复</div>
                 </div>
             </div>
-            <div class="step fade-in">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>开始使用</h3>
-                    <p>在 B 档模式下，任何需要麦克风权限的应用程序将接收到设备输出的音频内容，而非环境声音。</p>
+            <div class="contact-item">
+                <div class="ci-icon">📍</div>
+                <div>
+                    <div class="ci-label">所在地</div>
+                    <div class="ci-value">中国 · 深圳</div>
                 </div>
             </div>
         </div>
-    </section>
+        <form class="contact-form fade-in" onsubmit="event.preventDefault(); alert('感谢您的留言，我们将尽快与您联系！');">
+            <div class="form-group">
+                <label>姓名</label>
+                <input type="text" placeholder="您的姓名" required>
+            </div>
+            <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>公司（选填）</label>
+                <input type="text" placeholder="公司名称">
+            </div>
+            <div class="form-group">
+                <label>留言</label>
+                <textarea placeholder="请描述您的需求或合作意向..." required></textarea>
+            </div>
+            <button type="submit" class="form-submit">提交咨询</button>
+        </form>
+    </div>
+</section>
 
-    <!-- Specs Section -->
-    <section class="specs" id="specs">
-        <div class="section-header fade-in">
-            <h2>技术规格</h2>
-            <p>小巧机身，强大功能</p>
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div>
+            <div class="logo">Audio<span>Switch</span> Pro</div>
+            <p style="margin-top:0.3rem;">双模 USB 音频设备 · 让音频输入由你掌控</p>
         </div>
-        <div class="specs-grid">
-            <div class="spec-item fade-in">
-                <div class="spec-label">接口类型</div>
-                <div class="spec-value">USB Type-C</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">供电方式</div>
-                <div class="spec-value">USB 主机供电（无内置电池）</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">A 档模式</div>
-                <div class="spec-value">USB MSC（大容量存储类）</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">B 档模式</div>
-                <div class="spec-value">USB UAC（音频输入设备）</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">音频格式</div>
-                <div class="spec-value">MP3 → PCM 实时解码输出</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">兼容设备</div>
-                <div class="spec-value">手机 / 平板 / PC / Mac</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">驱动需求</div>
-                <div class="spec-value">免驱动，即插即用</div>
-            </div>
-            <div class="spec-item fade-in">
-                <div class="spec-label">默认文件</div>
-                <div class="spec-value">default/voice.mp3</div>
-            </div>
+        <div class="footer-links">
+            <a href="#features">功能</a>
+            <a href="#specs">规格</a>
+            <a href="#partners">合作</a>
+            <a href="#contact">联系</a>
         </div>
-    </section>
+    </div>
+</footer>
 
-    <!-- Footer -->
-    <footer>
-        <div class="logo">Audio<span>Switch</span> Pro</div>
-        <p>双模 USB 音频设备 · 让音频输入由你掌控</p>
-    </footer>
-
-    <script>
-        // Scroll animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+    });
+</script>
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
